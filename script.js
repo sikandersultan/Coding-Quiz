@@ -1,6 +1,10 @@
 var score = 0
 var questionNumber = 0
-
+var start = document.querySelector("#button")
+var timeLeft = 60
+var penalty = 10
+var timerCheck = 0
+var timer = document.querySelector("#time")
 var questions = [
   {
     title: "Inside which HTML element do we put the JavaScript?",
@@ -28,3 +32,17 @@ var questions = [
     answer: "=",
   },
 ];
+
+start.addEventListener("click", function () {
+  if (timerCheck === 0) {
+    timerCheck = setInterval(function () {
+      timeLeft--;
+      timer.textContent = "Time Left: " + timeLeft;
+      if (timeLeft <= 0) {
+        clearInterval(timerCheck);
+        timer.textContent = "Time's up!";
+      }
+    }, 1000);
+  }
+  render(questionList);
+});
