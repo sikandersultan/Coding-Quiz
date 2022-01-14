@@ -5,11 +5,12 @@ var timeLeft = 60
 var penalty = 10
 var timerCheck = 0
 var timer = document.querySelector("#time")
-var questions = [
+var questionsHTML = document.querySelector("#questions")
+var questionsAsked = [
   {
     title: "Inside which HTML element do we put the JavaScript?",
     choices: ["<js>", "<javascript>", "<scripting>", "<script>"],
-    answer: "script",
+    answer: "<script>",
   },
   {
     title: "Where is the correct place to insert a JavaScript?",
@@ -31,18 +32,59 @@ var questions = [
     choices: ["*", "=", "-", "x"],
     answer: "=",
   },
-];
+]
 
 start.addEventListener("click", function () {
   if (timerCheck === 0) {
     timerCheck = setInterval(function () {
-      timeLeft--;
+      timeLeft--
       timer.textContent = "Time Left: " + timeLeft;
       if (timeLeft <= 0) {
         clearInterval(timerCheck);
-        timer.textContent = "Time's up!";
+        timer.textContent = "Time's up!"
       }
-    }, 1000);
+    }, 1000)
   }
-  render(questionList);
-});
+  render(questionNumber)
+})
+var list = document.createElement("ul")
+function render(questionNumber) {
+  questions.innerHTML = ""
+  list.innerHTML = ""
+  for (var i = 0; i < questionsAsked.length; i++) {
+    var questionShown = questionsAsked[questionNumber].title
+    var userChoice = questionsAsked[questionNumber].choices
+    questions.textContent = questionShown
+
+  }
+  userChoice.forEach(function (chosen) {
+    var listItem = document.createElement("li")
+    listItem.textContent = chosen
+    questions.appendChild(list)
+    list.appendChild(listItem)
+    listItem.addEventListener("click", answer)
+  })
+}
+
+function answer(event) {
+  var comaparing = event.target
+  if (comaparing.matches("li")) {
+    var div = document.createElement("div")
+    div.setAttribute("id", "createDiv")
+    if (comaparing.textContent == questionsAsked[questionNumber].answer) {
+      score++
+      div.textContent = "That is right."
+    } else {
+      timeLeft = timeLeft - penalty
+      div.textContent = "THAT IS NOT RIGHT OMGGGG!??"
+    }
+  }
+  questionNumber++
+
+  if (questionNumber >= questionsAsked.length ) {
+    div.textContent = "The end " + "Your score is:" + score + questionsAsked.length + "were correct answers."
+  } else {
+    render(questionNumber)
+  }
+  questions.appendChild(div)
+}
