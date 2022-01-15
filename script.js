@@ -33,7 +33,7 @@ var questionsAsked = [
     answer: "=",
   },
 ]
-
+// this listens to the start button and shows the timer thingy
 start.addEventListener("click", function () {
   if (timerCheck === 0) {
     timerCheck = setInterval(function () {
@@ -45,8 +45,10 @@ start.addEventListener("click", function () {
       }
     }, 1000)
   }
+  // renders all the question into the browser
   render(questionNumber)
 })
+// creates a list for all the questions in the order they come
 var list = document.createElement("ul")
 function render(questionNumber) {
   questions.innerHTML = ""
@@ -65,7 +67,7 @@ function render(questionNumber) {
     listItem.addEventListener("click", answer)
   })
 }
-
+// compares the persons answer to the actual right answer
 function answer(event) {
   var comaparing = event.target
   if (comaparing.matches("li")) {
@@ -89,7 +91,7 @@ function answer(event) {
   }
   questions.appendChild(div)
 }
-
+// takes the information from the user and saves into the local storage
 function newFunction() {
   questions.innerHTML = ""
   timer.innerHTML = ""
