@@ -82,9 +82,59 @@ function answer(event) {
   questionNumber++
 
   if (questionNumber >= questionsAsked.length ) {
-    div.textContent = "The end " + "Your score is:" + score + questionsAsked.length + "were correct answers."
+    newFunction()
+    div.textContent = "The end. " + "Your score is: " + timeLeft
   } else {
     render(questionNumber)
   }
   questions.appendChild(div)
+}
+
+function newFunction() {
+  questions.innerHTML = ""
+  timer.innerHTML = ""
+  var ending = document.createElement("h1")
+  ending.setAttribute("id", "ending")
+  ending.textContent = "Finisheddddddd!!!!!!!"
+  questions.appendChild(ending)
+  if (timeLeft >= 0) {
+    var totalScore = timeLeft
+    var scoreHTML = document.createElement("p")
+    clearInterval(timerCheck)
+    scoreHTML.textContent = "Your score is: " + totalScore
+    questions.appendChild(scoreHTML)
+  }
+  var createLabel = document.createElement("label")
+  createLabel.setAttribute("id", "createLabel")
+  createLabel.textContent = "Enter your initials: "
+  questions.appendChild(createLabel)
+  var createInput = document.createElement("input")
+  createInput.setAttribute("type", "text")
+  createInput.setAttribute("id", "initials")
+  createInput.textContent = ""
+  questions.appendChild(createInput);
+  var createSubmit = document.createElement("button")
+  createSubmit.setAttribute("type", "submit")
+  createSubmit.setAttribute("id", "Submit")
+  createSubmit.textContent = "Submit"
+  questions.appendChild(createSubmit)
+  
+  createSubmit.addEventListener("click", function () {
+    var name = createInput.value
+    var savedscore = {
+      Name: name,
+      Score: timeLeft,
+    }
+    var savedValues = localStorage.getItem("savedValues")
+    if (savedValues === null) {
+      savedValues = []
+    } else {
+      savedValues = JSON.parse(savedValues)
+    }
+    savedValues.push(savedscore)
+    var newScore = JSON.stringify(savedValues)
+    localStorage.setItem("savedValues", newScore)
+    window.location.replace("scores.html")
+  })
+  
 }
